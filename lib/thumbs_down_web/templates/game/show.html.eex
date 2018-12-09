@@ -7,7 +7,7 @@
   <input type="submit" value="start"></input>
 </form>
 
-<div id="game"></div>
+<div id="game-app"></div>
 
 <script>
   function captureNameForm(e) {
@@ -18,7 +18,6 @@
   }
 
   function startGame(name) {
-    var game = new window.ThumbsDown('<%= @game.room_id %>', name);
-    game.setup();
+    window.app.startThumbsDown('<%= @game.room_id %>', name);
   }
 </script>
