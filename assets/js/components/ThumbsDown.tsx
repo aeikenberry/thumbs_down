@@ -3,6 +3,7 @@ import { Channel, Socket } from 'phoenix'
 import UserWidget from './UserWidget'
 import { UserState } from './UserRow'
 import { omit } from 'lodash'
+import ThumbZone, { ThumbState } from './ThumbZone'
 
 interface GameState {
   rawUsers: UserMap
@@ -47,6 +48,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
       <div>
         <h2>Game</h2>
         <UserWidget users={this.state.users}></UserWidget>
+        <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
       </div>
     )
   }
@@ -83,6 +85,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   private handlePresenseChange(e: PresenseEvent) {
+    console.log(e)
     const rawUsers = {
       ...omit(this.state.rawUsers, Object.keys(e.leaves)),
       ...e.joins
@@ -96,7 +99,14 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   private transformRawUsers(raw: UserMap): UserState[] {
     return Object.keys(raw).map((username) => ({
       name: username,
-      hasThumbsDown: false
+      hasThumbsDown: raw[username].metas[0].thumb_down as boolean
     }))
+  }
+
+  private thumbCallback(e: ThumbState) {
+    this.state.channel.push('thumb_change', {
+      name: Object.keys(this.state.rawUsers).filter((name) => name === this.props.username)[0],
+      is_down: e.active
+    })
   }
 }
