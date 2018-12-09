@@ -70,6 +70,13 @@ body, form, ul, table {
 
 .thumb-zone {
   width: 100%;
-  height: 100%;
+  height: 300px;
   border: 10px;
+  border-style: solid;
+  border-color: green;
+  padding-top: 20px;
+
+  &.active {
+    border-color: red;
+  }
 }

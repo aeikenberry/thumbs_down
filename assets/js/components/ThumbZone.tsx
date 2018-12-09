@@ -17,14 +17,20 @@ export default class ThumbZone extends React.Component<Props, ThumbState> {
   }
 
   public render(): JSX.Element {
+    let classes = 'thumb-zone'
+    if (this.state.active) {
+      classes += ' active'
+    }
     return (
       <div
-        className="thumb-zone"
+        className={classes}
         onMouseLeave={this.handleUp.bind(this)}
         onMouseDown={this.handleDown.bind(this)}
         onMouseUp={this.handleUp.bind(this)}
       >
-        <p>{this.state.active ? 'HOLD ON' : 'Press Here To Start'}</p>
+        <p className="text-center">
+          {this.state.active ? 'HOLD ON' : 'Press Here To Start'}
+        </p>
       </div>
     )
   }
