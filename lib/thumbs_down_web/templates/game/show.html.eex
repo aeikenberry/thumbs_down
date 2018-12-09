@@ -1,0 +1,30 @@
+<strong>Share your link:</strong>
+<pre><%= @game.room_id %></pre>
+
+<form onSubmit="return captureNameForm()" id="name-form">
+  <p>Enter you name to join</p>
+  <input id="name" type="text">
+  <input type="submit" value="start"></input>
+</form>
+
+<div id="user-list" class="hidden">
+  <p>Users</p>
+</div>
+
+<div id="down-box" class="hidden">
+
+</div>
+
+<script>
+  function captureNameForm(e) {
+    var name = document.getElementById('name').value;
+    startGame(name);
+    document.getElementById('name-form').remove();
+    return false;
+  }
+
+  function startGame(name) {
+    var game = new window.ThumbsDown('<%= @game.room_id %>', name);
+    game.setup();
+  }
+</script>

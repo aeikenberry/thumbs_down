@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="jumbotron">
+    <h2><%= gettext "Welcome to %{name}!", name: "Thumbs Down" %></h2>
+    <p class="lead">An multiplayer online game of patience.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= form_tag("/game", method: :post) %>
+        <button class="btn btn-lg">Start a new game</button>
+      </form>
+    </div>
+  </div>
+</div>
