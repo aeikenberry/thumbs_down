@@ -7,13 +7,7 @@
   <input type="submit" value="start"></input>
 </form>
 
-<div id="user-list" class="hidden">
-  <p>Users</p>
-</div>
-
-<div id="down-box" class="hidden">
-
-</div>
+<div id="game"></div>
 
 <script>
   function captureNameForm(e) {
