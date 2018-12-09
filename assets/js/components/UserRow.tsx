@@ -11,7 +11,6 @@ export default class UserRow extends React.Component<UserState, {}> {
   }
 
   public render(): JSX.Element {
-    console.log(this.props)
     return (
       <li>
         <p><strong>{this.props.name}</strong> | {this.props.hasThumbsDown === true ? 'YES' : 'NO'}</p>

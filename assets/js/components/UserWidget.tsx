@@ -15,7 +15,7 @@ export default class UserWidget extends React.Component<UsersState, {}> {
       <UserRow name={u.name} hasThumbsDown={u.hasThumbsDown} key={u.name}></UserRow>
     )
     return (
-      <div>
+      <div className="user-widget">
         <h2>Users</h2>
         <ul>{users}</ul>
       </div>

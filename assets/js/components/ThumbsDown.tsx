@@ -10,6 +10,8 @@ interface GameState {
   users: UserState[]
   socket: Socket
   channel?: Channel
+  starting?: false
+  active?: false
 }
 
 interface GameProps {
@@ -46,9 +48,9 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   public render(): JSX.Element {
     return (
       <div>
-        <h2>Game</h2>
-        <UserWidget users={this.state.users}></UserWidget>
+        <p>Once thumbs are down, the game will start</p>
         <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
+        <UserWidget users={this.state.users}></UserWidget>
       </div>
     )
   }
@@ -85,7 +87,6 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   private handlePresenseChange(e: PresenseEvent) {
-    console.log(e)
     const rawUsers = {
       ...omit(this.state.rawUsers, Object.keys(e.leaves)),
       ...e.joins

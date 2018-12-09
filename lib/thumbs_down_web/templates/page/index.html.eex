@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-12">
-      <%= form_tag("/game", method: :post) %>
+      <%= form_tag("/games", method: :post) %>
         <button class="btn btn-lg">Start a new game</button>
       </form>
     </div>

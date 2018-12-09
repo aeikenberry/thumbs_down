@@ -13,14 +13,6 @@ body, form, ul, table {
 .header {
   border-bottom: 1px solid #e5e5e5;
 }
-.logo {
-  width: 519px;
-  height: 71px;
-  display: inline-block;
-  margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
-}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -73,10 +65,16 @@ body, form, ul, table {
   height: 300px;
   border: 10px;
   border-style: solid;
-  border-color: green;
+  border-color: grey;
   padding-top: 20px;
 
   &.active {
-    border-color: red;
+    border-color: green;
+  }
+}
+
+.user-widget {
+  ul {
+    list-style: none;
   }
 }
