@@ -106,7 +106,6 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
 
   private thumbCallback(e: ThumbState) {
     this.state.channel.push('thumb_change', {
-      name: Object.keys(this.state.rawUsers).filter((name) => name === this.props.username)[0],
       is_down: e.active
     })
   }

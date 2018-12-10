@@ -27,6 +27,9 @@ export default class ThumbZone extends React.Component<Props, ThumbState> {
         onMouseLeave={this.handleUp.bind(this)}
         onMouseDown={this.handleDown.bind(this)}
         onMouseUp={this.handleUp.bind(this)}
+        onTouchStart={this.handleDown.bind(this)}
+        onTouchCancel={this.handleUp.bind(this)}
+        onTouchEnd={this.handleUp.bind(this)}
       >
         <p className="text-center">
           {this.state.active ? 'HOLD ON' : 'Press Here To Start'}

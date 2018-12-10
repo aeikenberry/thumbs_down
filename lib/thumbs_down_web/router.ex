@@ -19,6 +19,7 @@ defmodule ThumbsDownWeb.Router do
     get "/", PageController, :index
     resources "/games", GameController
     resources "/users", UserController
+    resources "/rooms", RoomController
   end
 
   # Other scopes may use custom stacks.
