@@ -16,7 +16,7 @@ export default class UserWidget extends React.Component<UsersState, {}> {
     )
     return (
       <div className="user-widget">
-        <h2>Users</h2>
+        <h4>Users</h4>
         <ul>{users}</ul>
       </div>
     )

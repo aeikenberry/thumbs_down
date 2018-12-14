@@ -74,7 +74,9 @@ body, form, ul, table {
 }
 
 .user-widget {
+  padding: 10px;
   ul {
     list-style: none;
+    padding-inline-start: 5px;
   }
 }

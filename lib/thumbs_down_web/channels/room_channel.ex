@@ -6,7 +6,7 @@ defmodule ThumbsDownWeb.RoomChannel do
 
     def join("room:" <> game_room_id, params, socket) do
       # Check if there is an active game in the database
-
+      
       # If not, they can join.
       socket = assign(socket, :room_id, game_room_id)
       send(self(), :after_join)
