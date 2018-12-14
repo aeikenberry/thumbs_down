@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Channel, Socket } from 'phoenix'
 import UserWidget from './UserWidget'
 import { UserState } from './UserRow'
-import { omit } from 'lodash'
+import { find, omit } from 'lodash'
 import ThumbZone, { ThumbState } from './ThumbZone'
 
 interface GameState {
@@ -105,8 +105,15 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   private thumbCallback(e: ThumbState) {
-    this.state.channel.push('thumb_change', {
-      is_down: e.active
-    })
+    if (this.myThumbChanged(e.active)) {
+      this.state.channel.push('thumb_change', {
+        is_down: e.active
+      })
+    }
+  }
+
+  private myThumbChanged(newValue: boolean): boolean {
+    const me = find(this.state.users, (user) => user.name === this.props.username)
+    return me.hasThumbsDown != newValue
   }
 }

@@ -37,6 +37,10 @@ defmodule ThumbsDown.Games do
   """
   def get_game!(id), do: Repo.get!(Game, id)
 
+  def get_game_for_room(room_id), do: Repo.get_by(Game, room_id: room_id)
+  def get_active_game_for_room(room_id) do
+    Repo.get_by(Game, %{room_id: room_id, })
+  end
   @doc """
   Creates a game.
 
