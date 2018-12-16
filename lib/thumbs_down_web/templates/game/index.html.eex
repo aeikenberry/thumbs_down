@@ -4,6 +4,9 @@
   <thead>
     <tr>
       <th>Room</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Duration</th>
 
       <th></th>
     </tr>
@@ -12,6 +15,9 @@
 <%= for game <- @games do %>
     <tr>
       <td><%= game.room_id %></td>
+      <td><%= game.start_time %></td>
+      <td><%= game.end_time %></td>
+      <td><%= game.duration %></td>
 
       <td class="text-right">
         <span><%= link "Show", to: game_path(@conn, :show, game), class: "btn btn-default btn-xs" %></span>

@@ -3,9 +3,9 @@ defmodule ThumbsDownWeb.GameControllerTest do
 
   alias ThumbsDown.Games
 
-  @create_attrs %{room_id: "some room_id"}
-  @update_attrs %{room_id: "some updated room_id"}
-  @invalid_attrs %{room_id: nil}
+  @create_attrs %{duration: 120.5, end_time: ~N[2010-04-17 14:00:00.000000], room_id: "some room_id", start_time: ~N[2010-04-17 14:00:00.000000]}
+  @update_attrs %{duration: 456.7, end_time: ~N[2011-05-18 15:01:01.000000], room_id: "some updated room_id", start_time: ~N[2011-05-18 15:01:01.000000]}
+  @invalid_attrs %{duration: nil, end_time: nil, room_id: nil, start_time: nil}
 
   def fixture(:game) do
     {:ok, game} = Games.create_game(@create_attrs)
