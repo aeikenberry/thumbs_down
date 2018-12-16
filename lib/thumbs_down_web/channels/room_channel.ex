@@ -1,14 +1,17 @@
 defmodule ThumbsDownWeb.RoomChannel do
     use Phoenix.Channel
     alias ThumbsDown.Presence
+    alias ThumbsDown.Games
     alias ThumbsDown.Games.Manager
+    alias ThumbsDown.GameSupervisor
+    alias ThumbsDown.GameServer
     require Logger
 
     def join("room:" <> game_room_id, params, socket) do
-      # Check if there is an active game in the database
-      
+      {game_room_int, _} = Integer.parse(game_room_id)
+      GameSupervisor.find_or_create_process(game_room_int)
       # If not, they can join.
-      socket = assign(socket, :room_id, game_room_id)
+      socket = assign(socket, :room_id, game_room_int)
       send(self(), :after_join)
 
       {:ok, assign(socket, :name, params["name"])}
@@ -24,7 +27,12 @@ defmodule ThumbsDownWeb.RoomChannel do
 
     def handle_in("thumb_change", attrs, socket) do
       Presence.update(socket, socket.assigns.name, %{thumb_down: attrs["is_down"]})
-      Logger.info(Manager.all_thumbs_down(Presence.list(socket)))
+      all_thumbs_down = Manager.all_thumbs_down(Presence.list(socket))
+
+      if (all_thumbs_down) do
+        GameServer.start_game(socket.assigns.room_id)
+        Logger.info(inspect(GameServer.details(socket.assigns.room_id)))
+      end
       {:reply, :ok, socket}
     end
   end

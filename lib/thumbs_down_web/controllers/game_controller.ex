@@ -31,10 +31,10 @@ defmodule ThumbsDownWeb.GameController do
 
   def create(conn, _params) do
     case Games.create_game(%{room_id: random_string(16)}) do
-      {:ok, game} ->
+      {:ok, room} ->
         conn
-        |> put_flash(:info, "Game created successfully.")
-        |> redirect(to: game_path(conn, :show, game))
+        |> put_flash(:info, "Room created successfully.")
+        |> redirect(to: game_path(conn, :show, room))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
