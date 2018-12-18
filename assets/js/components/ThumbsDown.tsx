@@ -69,6 +69,11 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
       .receive('error', this.handleError.bind(this))
     this.state.channel.on('presence_state', this.handlePresenseState.bind(this))
     this.state.channel.on('presence_diff', this.handlePresenseChange.bind(this))
+    this.state.channel.on('game_update', this.handleGameUpdate.bind(this))
+  }
+
+  private handleGameUpdate(e) {
+    console.log('Game Update', e)
   }
 
   private handleEnter() {

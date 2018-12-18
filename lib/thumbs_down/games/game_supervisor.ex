@@ -52,6 +52,12 @@ defmodule ThumbsDown.GameSupervisor do
     end
   end
 
+  def game_process_pid(game_id) when is_integer(game_id) do
+    case Registry.lookup(@game_registry_name, game_id) do
+      [] -> nil
+      [{pid, _}] -> pid
+    end
+  end
 
   @doc """
   Creates a new game process, based on the `game_id` integer.
@@ -94,7 +100,7 @@ defmodule ThumbsDown.GameSupervisor do
   @doc false
   def init(_) do
     children = [
-      worker(ThumbsDown.GameServer, [], restart: :temporary)
+      worker(ThumbsDown.GameState, [], restart: :temporary)
     ]
 
     # strategy set to `:simple_one_for_one` to handle dynamic child processes.
