@@ -1,4 +1,4 @@
-defmodule ThumbsDown.GameServer do
+defmodule ThumbsDown.GameState do
   @moduledoc """
   Simple genserver to represent an imaginary game process.
   Requires you provide an integer-based `game_id` upon starting.
@@ -16,9 +16,11 @@ defmodule ThumbsDown.GameServer do
   # Just a simple struct to manage the state for this genserver
   # You could add additional attributes here to keep track of for a given game
   defstruct game_id: 0,
-            start_time: "",
-            end_time: "",
-            timer_ref: nil
+            start_time: nil,
+            end_time: nil,
+            timer_ref: nil,
+            users: nil,
+            game_events: []
 
 
   @doc """
@@ -57,6 +59,14 @@ defmodule ThumbsDown.GameServer do
 
   def end_game(game_id) do
     GenServer.call(via_tuple(game_id), :end_game)
+  end
+
+  def set_users(game_id, users) do
+    GenServer.call(via_tuple(game_id), {:set_users, users})
+  end
+
+  def track_event(game_id, event) do
+    GenServer.call(via_tuple(game_id), {:track_event, event})
   end
 
   @doc """
@@ -122,10 +132,23 @@ defmodule ThumbsDown.GameServer do
     response = %{
       id: state.game_id,
       start_time: state.start_time,
-      end_time: state.end_time
+      end_time: state.end_time,
+      users: state.users,
+      is_started: state.start_time != nil,
+      is_ended: state.end_time != nil,
+      in_progress: state.start_time != nil && state.end_time == nil,
+      game_events: state.game_events
     }
 
     {:reply, response, state}
+  end
+
+  def handle_call({:set_users, users}, _from, state) do
+    {:reply, :ok, %__MODULE__{ state | users: users}}
+  end
+
+  def handle_call({:track_event, event}, _from, state) do
+    {:reply, :ok, %__MODULE__{ state | game_events: state.game_events ++ [event]}}
   end
 
   @doc false
@@ -134,7 +157,7 @@ defmodule ThumbsDown.GameServer do
   end
 
   def handle_call(:end_game, _from, state) do
-    {:reply, %__MODULE__{ state | end_time: DateTime.utc_now}}
+    {:reply, :ok, %__MODULE__{ state | end_time: DateTime.utc_now}}
   end
 
 end
