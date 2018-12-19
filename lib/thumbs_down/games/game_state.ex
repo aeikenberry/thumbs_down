@@ -20,7 +20,9 @@ defmodule ThumbsDown.GameState do
             end_time: nil,
             timer_ref: nil,
             users: nil,
-            game_events: []
+            in_progress: false,
+            game_events: [],
+            winner: nil
 
 
   @doc """
@@ -67,6 +69,10 @@ defmodule ThumbsDown.GameState do
 
   def track_event(game_id, event) do
     GenServer.call(via_tuple(game_id), {:track_event, event})
+  end
+
+  def set_winner(game_id, username) do
+    GenServer.call(via_tuple(game_id), {:set_winner, username})
   end
 
   @doc """
@@ -137,7 +143,8 @@ defmodule ThumbsDown.GameState do
       is_started: state.start_time != nil,
       is_ended: state.end_time != nil,
       in_progress: state.start_time != nil && state.end_time == nil,
-      game_events: state.game_events
+      game_events: state.game_events,
+      winner: state.winner
     }
 
     {:reply, response, state}
@@ -149,6 +156,10 @@ defmodule ThumbsDown.GameState do
 
   def handle_call({:track_event, event}, _from, state) do
     {:reply, :ok, %__MODULE__{ state | game_events: state.game_events ++ [event]}}
+  end
+
+  def handle_call({:set_winner, username}, _from, state) do
+    {:reply, :ok, %__MODULE__{ state | winner: username }}
   end
 
   @doc false
