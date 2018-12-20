@@ -21,7 +21,6 @@ defmodule ThumbsDown.GameState do
             timer_ref: nil,
             users: [],
             in_progress: false,
-            game_events: [],
             winner: nil
 
 
@@ -143,7 +142,6 @@ defmodule ThumbsDown.GameState do
       is_started: state.start_time != nil,
       is_ended: state.end_time != nil,
       in_progress: state.start_time != nil && state.end_time == nil,
-      game_events: state.game_events,
       winner: state.winner
     }
 
@@ -152,10 +150,6 @@ defmodule ThumbsDown.GameState do
 
   def handle_call({:set_users, users}, _from, state) do
     {:reply, :ok, %__MODULE__{ state | users: users}}
-  end
-
-  def handle_call({:track_event, event}, _from, state) do
-    {:reply, :ok, %__MODULE__{ state | game_events: state.game_events ++ [event]}}
   end
 
   def handle_call({:set_winner, username}, _from, state) do

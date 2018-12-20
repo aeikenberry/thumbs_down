@@ -68,10 +68,6 @@ defmodule ThumbsDown.GameManager do
     GameState.set_winner(id, username)
   end
 
-  def track_event(id, event) do
-    GameState.track_event(id, event)
-  end
-
   ## Game State Supervisor API
   def ensure_state(id) do
     GameSupervisor.find_or_create_process(id)
