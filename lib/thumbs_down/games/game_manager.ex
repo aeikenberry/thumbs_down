@@ -34,9 +34,11 @@ defmodule ThumbsDown.GameManager do
   end
 
   def find_winner(game, user_state, username_exitting) do
-    c = Enum.count(game.users)
+    c = game_down_count(user_state, game.users)
+    with_thumbs_down = Enum.filter(user_state, fn {name, value} -> Enum.at(value[:metas], 0)[:thumb_down] == true end)
+    Logger.info(inspect(with_thumbs_down))
     case c do
-      1 -> Enum.at(game.users, 0)
+      1 -> Enum.at(Tuple.to_list(Enum.at(with_thumbs_down, 0)), 0)
       0 -> username_exitting
     end
   end
