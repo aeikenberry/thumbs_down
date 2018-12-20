@@ -48,7 +48,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   public render(): JSX.Element {
     const renderOver = () =>
       <div>
-        <p>Game is over! Winner: {this.state.gameState.winner}</p>
+        <p>Game is over! Winner: <strong>🏅 {this.state.gameState.winner} 🏅</strong></p>
       </div>
 
     const renderThumbZone = () =>
@@ -56,7 +56,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
 
     return (
       <div>
-        <UserWidget users={this.state.users}></UserWidget>
+        <UserWidget users={this.state.users}  inGameUsers={this.state.gameState.users} winner={this.state.gameState.winner}></UserWidget>
         {this.state.gameState.is_ended && renderOver()}
         {this.state.gameState.in_progress && <h2>GAME IN PROGRESS!!!!</h2>}
         {this.shouldShowThumbZone() && renderThumbZone()}
