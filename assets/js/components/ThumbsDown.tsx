@@ -10,8 +10,7 @@ interface GameState {
   users: UserState[]
   socket: Socket
   channel?: Channel
-  starting?: false
-  active?: false
+  gameState: any
 }
 
 interface GameProps {
@@ -35,7 +34,8 @@ interface UserDetail {
 const initialState = {
   socket: new Socket('/socket', {}),
   users: [],
-  rawUsers: {}
+  rawUsers: {},
+  gameState: {}
 }
 
 export default class ThumbsDown extends React.Component<GameProps, GameState> {
@@ -46,13 +46,31 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   public render(): JSX.Element {
+    const renderOver = () =>
+      <div>
+        <p>Game is over! Winner: {this.state.gameState.winner}</p>
+      </div>
+
+    const renderThumbZone = () =>
+      <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
+
     return (
       <div>
-        <p>Once thumbs are down, the game will start</p>
-        <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
         <UserWidget users={this.state.users}></UserWidget>
+        {this.state.gameState.is_ended && renderOver()}
+        {this.state.gameState.in_progress && <h2>GAME IN PROGRESS!!!!</h2>}
+        {this.shouldShowThumbZone() && renderThumbZone()}
       </div>
     )
+  }
+
+  private shouldShowThumbZone(): boolean {
+    if (this.state.gameState.is_ended) return false
+    if (this.state.gameState.in_progress) {
+      return this.state.gameState.users.indexOf(this.props.username) > -1
+    }
+
+    return true
   }
 
   private setup(): void {
@@ -73,7 +91,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   private handleGameUpdate(e) {
-    console.log('Game Update', e)
+    this.setState({ gameState: e })
   }
 
   private handleEnter() {
@@ -119,6 +137,6 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
 
   private myThumbChanged(newValue: boolean): boolean {
     const me = find(this.state.users, (user) => user.name === this.props.username)
-    return me.hasThumbsDown != newValue
+    return me.hasThumbsDown !== newValue
   }
 }

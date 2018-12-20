@@ -11,9 +11,16 @@ export interface ThumbState {
 const inititalState = { active: false }
 
 export default class ThumbZone extends React.Component<Props, ThumbState> {
+  public node = React.createRef() as any
+
   constructor(props) {
     super(props)
     this.state = inititalState
+  }
+
+  public componentDidMount() {
+
+    this.node.current.ontouchstart = this.handleDown.bind(this)
   }
 
   public render(): JSX.Element {
@@ -24,6 +31,7 @@ export default class ThumbZone extends React.Component<Props, ThumbState> {
     return (
       <div
         className={classes}
+        ref={this.node}
         onMouseLeave={this.handleUp.bind(this)}
         onMouseDown={this.handleDown.bind(this)}
         onMouseUp={this.handleUp.bind(this)}

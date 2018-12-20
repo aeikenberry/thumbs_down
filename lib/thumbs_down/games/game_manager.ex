@@ -18,8 +18,11 @@ defmodule ThumbsDown.GameManager do
   end
 
   def find_winner(game, user_state, username_exitting) do
-    Logger.info(inspect(user_state))
-    Logger.info(inspect(username_exitting))
+    c = Enum.count(user_state)
+    case c do
+      1 -> Enum.at(Map.keys(user_state), 0)
+      0 -> username_exitting
+    end
   end
 
   def usernames(users) do
@@ -93,6 +96,7 @@ defmodule ThumbsDown.GameManager do
 
     if all_thumbs_down?(user_state) do
       start_game(game.id)
+      set_users(game.id, user_state)
     end
   end
 
@@ -101,8 +105,8 @@ defmodule ThumbsDown.GameManager do
     Logger.info("Thumb Down while game is running doesn't make sense, do nothing")
   end
 
-  def handle_leave(id, user) do
-    Logger.info(id)
-    Logger.info(user)
+  def handle_leave(id, user_leaving, user_state) do
+    game = get(id)
+    handle_thumb_up(game, user_state, user_leaving)
   end
 end

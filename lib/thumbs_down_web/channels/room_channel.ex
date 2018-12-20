@@ -26,7 +26,8 @@ defmodule ThumbsDownWeb.RoomChannel do
     :ok = ThumbsDown.ChannelWatcher.monitor(
       :rooms, self(), {__MODULE__, :leave, [
         socket.assigns.game_id,
-        socket.assigns.name
+        socket.assigns.name,
+        socket
       ]}
     )
 
@@ -36,8 +37,8 @@ defmodule ThumbsDownWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def leave(game_id, user_name) do
-    GameManager.handle_leave(game_id, user_name)
+  def leave(game_id, user_name, socket) do
+    GameManager.handle_leave(game_id, user_name, Presence.list(socket))
   end
 
   def handle_in("thumb_change", attrs, socket) do
