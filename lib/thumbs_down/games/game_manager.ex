@@ -1,13 +1,14 @@
 defmodule ThumbsDown.GameManager do
   alias ThumbsDown.GameSupervisor
   alias ThumbsDown.GameState
+  alias ThumbsDown.Games
   require Logger
 
   ## Helpers
 
   def should_begin_game?(user_state) do
     count = Enum.count(user_state)
-    down = Enum.count(user_state, fn {name,value} ->
+    down = Enum.count(user_state, fn {_,value} ->
       Enum.at(value[:metas], 0)[:thumb_down] == true
     end)
     count == down
@@ -35,7 +36,7 @@ defmodule ThumbsDown.GameManager do
 
   def find_winner(game, user_state, username_exitting) do
     c = game_down_count(user_state, game.users)
-    with_thumbs_down = Enum.filter(user_state, fn {name, value} -> Enum.at(value[:metas], 0)[:thumb_down] == true end)
+    with_thumbs_down = Enum.filter(user_state, fn {_, value} -> Enum.at(value[:metas], 0)[:thumb_down] == true end)
     Logger.info(inspect(with_thumbs_down))
     case c do
       1 -> Enum.at(Tuple.to_list(Enum.at(with_thumbs_down, 0)), 0)
@@ -62,6 +63,10 @@ defmodule ThumbsDown.GameManager do
 
   def end_game(id) do
     GameState.end_game(id)
+    # game = Games.get_game(id)
+    # TODO: Update game in database
+    # Probably not even load game if it's already over.
+    # Show link to start a new game
   end
 
   def set_winner(id, username) do
@@ -90,7 +95,7 @@ defmodule ThumbsDown.GameManager do
     get(id)
   end
 
-  def handle_thumb_up(%{in_progress: false} = game, user_state, username) do
+  def handle_thumb_up(%{in_progress: false} = _, _, _) do
     # Noop who cares!
   end
 
@@ -102,7 +107,7 @@ defmodule ThumbsDown.GameManager do
     end
   end
 
-  def handle_thumb_down(%{in_progress: false} = game, user_state, username) do
+  def handle_thumb_down(%{in_progress: false} = game, user_state, _) do
     # Is everyone down?
     ## Yes: Start the game!
     ## No: noop
@@ -113,7 +118,7 @@ defmodule ThumbsDown.GameManager do
     end
   end
 
-  def handle_thumb_down(%{in_progress: true} = game, user_state, username) do
+  def handle_thumb_down(%{in_progress: true} = _, _, _) do
     # Thumb Down while game is running doesn't make sense, do nothing
     Logger.info("Thumb Down while game is running doesn't make sense, do nothing")
   end

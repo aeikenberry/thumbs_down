@@ -3,7 +3,7 @@ import * as React from 'react'
 export interface UserState {
   hasThumbsDown?: boolean
   name: string
-  inGame: boolean
+  inGame?: boolean
   winner?: string
 }
 
