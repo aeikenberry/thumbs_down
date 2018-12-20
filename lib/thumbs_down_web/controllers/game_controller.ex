@@ -24,11 +24,6 @@ defmodule ThumbsDownWeb.GameController do
         render(conn, "new.html", changeset: changeset)
     end
   end
-
-  def random_string(length) do
-    :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
-  end
-
   def create(conn, _params) do
     case Games.create_game(%{room_id: random_string(16)}) do
       {:ok, room} ->
@@ -38,6 +33,10 @@ defmodule ThumbsDownWeb.GameController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  def random_string(length) do
+    :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
   end
 
   def show(conn, %{"id" => id}) do
