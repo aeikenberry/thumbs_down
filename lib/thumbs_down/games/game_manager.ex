@@ -5,22 +5,38 @@ defmodule ThumbsDown.GameManager do
 
   ## Helpers
 
-  def all_thumbs_down?(users) do
-    count = Enum.count(users)
-    down = down_count(users)
+  def should_begin_game?(user_state) do
+    count = Enum.count(user_state)
+    down = Enum.count(user_state, fn {name,value} ->
+      Enum.at(value[:metas], 0)[:thumb_down] == true
+    end)
     count == down
   end
 
-  def down_count(users) do
-    Enum.count(users, fn {name,value} ->
-      Enum.at(value[:metas], 0)[:thumb_down] == true
+  def should_game_end?(user_state, game_users) do
+    down = game_down_count(user_state, game_users)
+
+    if Enum.count(user_state) <= 1 do
+      # someone left or it was only one person
+      true
+    else
+      down <= 1
+    end
+  end
+
+  def game_down_count(user_state, game_users) do
+    Enum.count(user_state, fn {name,value} ->
+      case Enum.member?(game_users, name) do
+        true -> Enum.at(value[:metas], 0)[:thumb_down] == true
+        _ -> false
+      end
     end)
   end
 
   def find_winner(game, user_state, username_exitting) do
-    c = Enum.count(user_state)
+    c = Enum.count(game.users)
     case c do
-      1 -> Enum.at(Map.keys(user_state), 0)
+      1 -> Enum.at(game.users, 0)
       0 -> username_exitting
     end
   end
@@ -82,8 +98,7 @@ defmodule ThumbsDown.GameManager do
 
   def handle_thumb_up(%{in_progress: true} = game, user_state, username) do
     # Someone is out!
-    down = down_count(user_state)
-    if Enum.count(user_state) <= 1 do
+    if should_game_end?(user_state, game.users) do
       end_game(game.id)
       set_winner(game.id, find_winner(game, user_state, username))
     end
@@ -94,7 +109,7 @@ defmodule ThumbsDown.GameManager do
     ## Yes: Start the game!
     ## No: noop
 
-    if all_thumbs_down?(user_state) do
+    if should_begin_game?(user_state) do
       start_game(game.id)
       set_users(game.id, user_state)
     end

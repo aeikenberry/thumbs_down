@@ -19,7 +19,7 @@ defmodule ThumbsDown.GameState do
             start_time: nil,
             end_time: nil,
             timer_ref: nil,
-            users: nil,
+            users: [],
             in_progress: false,
             game_events: [],
             winner: nil
