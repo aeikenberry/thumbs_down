@@ -1,9 +1,7 @@
 defmodule ThumbsDownWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :thumbs_down
 
-  socket "/socket", ThumbsDownWeb.UserSocket,
-    websocket: [timeout: 45_000],
-    longpoll: false
+  socket "/socket", ThumbsDownWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
