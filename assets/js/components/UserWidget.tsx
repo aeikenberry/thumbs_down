@@ -35,14 +35,14 @@ export default class UserWidget extends React.Component<UsersState, {}> {
         inGame={true}
         winner={this.props.winner}
       ></UserRow>
-      ) : null
+      ) : []
 
     return (
       <div className="user-widget">
         <h4>Users</h4>
         <span>Connected</span>
           <ul>{connectedUsers}</ul>
-        {notConnectedGameUsers && <div>
+        {notConnectedGameUsers.length > 0 && <div>
           <span>Participants</span>
           <ul>{notConnectedGameUsers}</ul>
         </div>}
