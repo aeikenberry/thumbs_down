@@ -25,6 +25,7 @@ defmodule ThumbsDown.Games do
 
   def top_10 do
     query = from g in Game,
+      where: not(is_nil(g.winner)),
       order_by: [desc: g.duration],
       limit: 10
     Repo.all(query)
