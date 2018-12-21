@@ -5,7 +5,6 @@ defmodule ThumbsDownWeb.PageController do
 
   def index(conn, _params) do
     games = Games.top_10()
-    Logger.info(inspect(games))
     render(conn, "index.html", games: games)
   end
 end
