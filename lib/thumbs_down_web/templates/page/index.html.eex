@@ -14,5 +14,5 @@
 <script>
 setTimeout(function() {
   window.app.showNewGameForm(<%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>, 'new-game-form');
-}, 10);
+}, 50);
 </script>
