@@ -40,10 +40,10 @@ export default class UserWidget extends React.Component<UsersState, {}> {
     return (
       <div className="user-widget">
         <h4>Users</h4>
-        <span>Connected</span>
+        {this.props.winner === null && <div>
           <ul>{connectedUsers}</ul>
+        </div>}
         {notConnectedGameUsers.length > 0 && <div>
-          <span>Participants</span>
           <ul>{notConnectedGameUsers}</ul>
         </div>}
       </div>
