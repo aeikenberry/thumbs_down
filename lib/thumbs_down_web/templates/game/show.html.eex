@@ -23,7 +23,6 @@
   }
 
   function copyURL() {
-    console.log('HIIIII');
     let url = $('#invite').text();
     var $temp = $("<input>");
     $("body").append($temp);
