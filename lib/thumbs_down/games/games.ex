@@ -7,7 +7,6 @@ defmodule ThumbsDown.Games do
   import Ecto.Query, only: [from: 2]
 
   alias ThumbsDown.Repo
-
   alias ThumbsDown.Games.Game
 
   @doc """
