@@ -9,10 +9,33 @@
       <div id="new-game-form"></div>
     </div>
   </div>
+
+  Leader Board
+  <table class="table">
+  <thead>
+    <tr>
+      <th>🏅 Winner</th>
+      <th>⏱️ Duration</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for game <- @games do %>
+    <tr>
+      <td>🏅 <%= game.winner %> 🏅</td>
+      <td>⏱️ <%= game.duration %>secs</td>
+
+      <td class="text-right">
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
 </div>
 
 <script>
 setTimeout(function() {
   window.app.showNewGameForm(<%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>, 'new-game-form');
-}, 50);
+}, 500);
 </script>

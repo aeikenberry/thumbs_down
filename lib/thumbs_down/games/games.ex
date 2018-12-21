@@ -4,6 +4,8 @@ defmodule ThumbsDown.Games do
   """
 
   import Ecto.Query, warn: false
+  import Ecto.Query, only: [from: 2]
+
   alias ThumbsDown.Repo
 
   alias ThumbsDown.Games.Game
@@ -19,6 +21,13 @@ defmodule ThumbsDown.Games do
   """
   def list_games do
     Repo.all(Game)
+  end
+
+  def top_10 do
+    query = from g in Game,
+      order_by: [desc: g.duration],
+      limit: 10
+    Repo.all(query)
   end
 
   @doc """

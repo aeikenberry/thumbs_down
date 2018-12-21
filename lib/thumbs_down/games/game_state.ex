@@ -21,7 +21,8 @@ defmodule ThumbsDown.GameState do
             timer_ref: nil,
             users: [],
             in_progress: false,
-            winner: nil
+            winner: nil,
+            duration: nil
 
 
   @doc """
@@ -174,7 +175,8 @@ defmodule ThumbsDown.GameState do
       users: game.users,
       start_time: game.start_time,
       end_time: game.end_time,
-      winner: game.winner
+      winner: game.winner,
+      duration: game.duration
     }}
   end
 

@@ -19,7 +19,7 @@
             <%# <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li> %>
           </ul>
         </nav>
-        <h1>Thumbs Down Game</h1>
+        <h1><a href="/">Thumbs Down Game</a></h1>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
