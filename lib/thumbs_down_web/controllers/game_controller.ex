@@ -41,7 +41,8 @@ defmodule ThumbsDownWeb.GameController do
 
   def show(conn, %{"id" => id}) do
     game = Games.get_game!(id)
-    render(conn, "show.html", game: game)
+    base_url = System.get_env("BASE_URL")
+    render(conn, "show.html", game: game, base_url: base_url)
   end
 
   def edit(conn, %{"id" => id}) do

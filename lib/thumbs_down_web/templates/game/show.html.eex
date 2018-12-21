@@ -1,4 +1,4 @@
-<span><pre>📅 http:/localhost:4000/games/<%= @game.id %> 📅</pre></span>
+<span><pre>📅 <%= @base_url %>/games/<%= @game.id %> 📅</pre></span>
 
 <form onSubmit="return captureNameForm()" id="name-form">
   <p>Enter you name to join</p>
