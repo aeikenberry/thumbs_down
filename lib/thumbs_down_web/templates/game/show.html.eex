@@ -1,7 +1,10 @@
-<span><pre>📅 <%= @base_url %>/games/<%= @game.id %> 📅</pre></span>
+<div class="invite-container text-center">
+  <pre>📅 <span id="invite"><%= @base_url %>/games/<%= @game.id %></span> 📅</pre>
+  <button class="btn btn-sm btn-secondary" onClick="copyURL()" id="copy">copy</button>
+</div>
 
 <form onSubmit="return captureNameForm()" id="name-form">
-  <p>Enter you name to join</p>
+  <p>🙍 Name</p>
   <input id="name" type="text">
   <input type="submit" value="start"></input>
 </form>
@@ -17,6 +20,16 @@
     startGame(name);
     document.getElementById('name-form').remove();
     return false;
+  }
+
+  function copyURL() {
+    console.log('HIIIII');
+    let url = $('#invite').text();
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(url).select();
+    document.execCommand("copy");
+    $temp.remove();
   }
 
   setTimeout(function() {

@@ -86,3 +86,15 @@ body, form, ul, table {
     font-size: 40px;
   }
 }
+
+.invite-container {
+  width: 100%;
+
+  pre {
+    display: inline;
+  }
+
+  button {
+    display: inline;
+  }
+}
