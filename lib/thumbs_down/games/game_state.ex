@@ -169,7 +169,7 @@ defmodule ThumbsDown.GameState do
     {:reply, :ok, %__MODULE__{ state | end_time: DateTime.utc_now}}
   end
 
-  def handle_call({:set, game}, _from, state) do
+  def handle_call({:set, game}, _from, _) do
     {:reply, :ok, %__MODULE__{
       users: game.users,
       start_time: game.start_time,
