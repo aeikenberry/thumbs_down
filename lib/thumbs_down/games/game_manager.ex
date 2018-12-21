@@ -80,7 +80,8 @@ defmodule ThumbsDown.GameManager do
       winner: game_state.winner,
       start_time: game_state.start_time,
       end_time: game_state.end_time,
-      users: game_state.users
+      users: game_state.users,
+      duration: DateTime.diff(game_state.end_time, game_state.start_time)
     })
   end
 
