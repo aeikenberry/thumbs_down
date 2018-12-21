@@ -147,7 +147,8 @@ defmodule ThumbsDown.GameState do
       is_started: state.start_time != nil,
       is_ended: state.end_time != nil,
       in_progress: state.start_time != nil && state.end_time == nil,
-      winner: state.winner
+      winner: state.winner,
+      duration: state.duration
     }
 
     {:reply, response, state}
