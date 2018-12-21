@@ -50,7 +50,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   public render(): JSX.Element {
     const renderOver = () =>
       <div>
-        <p>Game is over! Winner: <strong>🏅 {this.state.gameState.winner} 🏅</strong></p>
+        <p>Game is over! Winner: <strong>🏅 {this.state.gameState.winner} 🏅</strong> ⏱️{this.state.gameState.duration}sec </p>
       </div>
 
     const renderThumbZone = () =>
