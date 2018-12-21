@@ -74,6 +74,10 @@ defmodule ThumbsDown.GameState do
     GenServer.call(via_tuple(game_id), {:set_winner, username})
   end
 
+  def set(game_id, game) do
+    GenServer.call(via_tuple(game_id), {:set, game})
+  end
+
   @doc """
   Init callback
   """
@@ -163,6 +167,15 @@ defmodule ThumbsDown.GameState do
 
   def handle_call(:end_game, _from, state) do
     {:reply, :ok, %__MODULE__{ state | end_time: DateTime.utc_now}}
+  end
+
+  def handle_call({:set, game}, _from, state) do
+    {:reply, :ok, %__MODULE__{
+      users: game.users,
+      start_time: game.start_time,
+      end_time: game.end_time,
+      winner: game.winner
+    }}
   end
 
 end

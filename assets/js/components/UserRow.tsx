@@ -13,13 +13,20 @@ export default class UserRow extends React.Component<UserState, {}> {
   }
 
   public render(): JSX.Element {
+    const thumbDisplay = () => {
+      if (this.props.hasThumbsDown === null) {
+        return ''
+      }
+
+      return this.props.hasThumbsDown === true ? '👎' : '👍'
+    }
     return (
       <li>
         <p>
           <strong>
           {this.props.name}
           </strong>
-           {this.props.hasThumbsDown === true ? '👎' : '👍'}
+           {thumbDisplay()}
            {this.props.inGame === true ? '🎮' : ''}
            {this.props.winner === this.props.name ? '🏅': ''}
         </p>
