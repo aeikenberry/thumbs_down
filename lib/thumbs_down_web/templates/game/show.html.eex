@@ -9,12 +9,25 @@
 <div id="game-app"></div>
 
 <script>
+  let usernameCookie = 'TD-NAME';
+
   function captureNameForm(e) {
     var name = document.getElementById('name').value;
+    window.app.setCookie(usernameCookie, name);
     startGame(name);
     document.getElementById('name-form').remove();
     return false;
   }
+
+  setTimeout(function() {
+    let cookie = window.app.getCookie(usernameCookie)
+    if (!cookie) {
+      //$('.hidden').show();
+    } else {
+      startGame(cookie);
+      document.getElementById('name-form').remove();
+    }
+  }, 20)
 
   function startGame(name) {
     window.app.startThumbsDown('<%= @game.id %>', name, <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>);
