@@ -63,7 +63,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
       <div>
         <UserWidget users={this.state.users}  inGameUsers={this.state.gameState.users} winner={this.state.gameState.winner}></UserWidget>
         {this.state.gameState.is_ended && renderOver()}
-        {this.state.gameState.in_progress && <h2>GAME IN PROGRESS!!!!</h2>}
+        {this.state.gameState.in_progress && <h5>🎮 In progress 🎮</h5>}
         {this.shouldShowThumbZone() && renderThumbZone()}
         {this.state.gameState.is_ended && renderNewGameForm()}
       </div>

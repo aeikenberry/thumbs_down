@@ -38,7 +38,7 @@ export default class ThumbZone extends React.Component<Props, ThumbState> {
         onTouchEnd={this.handleUp.bind(this)}
       >
         <p className="text-center">
-          {this.state.active ? 'HOLD ON' : 'Press Here To Start'}
+          {this.state.active ? 'Stay down, don\'t drag outside the box' : 'Press and Hold Here To Start'}
         </p>
       </div>
     )
