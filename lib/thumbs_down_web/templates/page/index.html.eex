@@ -1,16 +1,16 @@
 <div class="container">
-  <div class="jumbotron">
-    <h2><%= gettext "Welcome to %{name}!", name: "Thumbs Down" %></h2>
-    <p class="lead">An multiplayer online game of patience.</p>
+  <div class="intro text-center">
+    <p>👎👎👎👎👎👎👎👎👎👎👎</p>
+    <p>🏅🏅🏅🏅🏅🏅🏅🏅🏅🏅🏅</p>
   </div>
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 text-center">
       <div id="new-game-form"></div>
     </div>
   </div>
 
-  Leader Board
+  <h5>Leader Board</h5>
   <table class="table">
   <thead>
     <tr>
