@@ -18,6 +18,9 @@ defmodule ThumbsDownWeb.RoomChannel do
     push(socket, "presence_state", Presence.list(socket))
 
     GameManager.ensure_state(socket.assigns.game_id)
+    GameManager.update_state_from_db(socket.assigns.game_id)
+    game = GameManager.get(socket.assigns.game_id)
+    broadcast(socket, "game_update", game)
 
     {:ok, _} = Presence.track(socket, socket.assigns.name, %{
       thumb_down: false,
@@ -30,9 +33,6 @@ defmodule ThumbsDownWeb.RoomChannel do
         socket
       ]}
     )
-
-    game = GameManager.get(socket.assigns.game_id)
-    broadcast(socket, "game_update", game)
 
     {:noreply, socket}
   end

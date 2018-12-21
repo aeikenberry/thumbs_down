@@ -4,10 +4,10 @@ defmodule ThumbsDown.Games.Game do
 
 
   schema "games" do
-    field :duration, :float
     field :end_time, :naive_datetime
-    field :room_id, :string
     field :start_time, :naive_datetime
+    field :users, {:array, :string}
+    field :winner, :string
 
     timestamps()
   end
@@ -15,7 +15,7 @@ defmodule ThumbsDown.Games.Game do
   @doc false
   def changeset(game, attrs) do
     game
-    |> cast(attrs, [:room_id, :start_time, :end_time, :duration])
-    |> validate_required([:room_id])
+    |> cast(attrs, [:users, :winner, :start_time, :end_time ])
+    |> validate_required([])
   end
 end

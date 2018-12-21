@@ -4,6 +4,7 @@ import UserWidget from './UserWidget'
 import { UserState } from './UserRow'
 import { find, omit } from 'lodash'
 import ThumbZone, { ThumbState } from './ThumbZone'
+import NewGameForm from './NewGameForm'
 
 interface GameState {
   rawUsers: UserMap
@@ -16,6 +17,7 @@ interface GameState {
 interface GameProps {
   roomId: string
   username: string
+  csrf_token: string
 }
 
 interface PresenseEvent {
@@ -54,12 +56,16 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     const renderThumbZone = () =>
       <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
 
+    const renderNewGameForm = () =>
+      <NewGameForm csrf_token={this.props.csrf_token}></NewGameForm>
+
     return (
       <div>
         <UserWidget users={this.state.users}  inGameUsers={this.state.gameState.users} winner={this.state.gameState.winner}></UserWidget>
         {this.state.gameState.is_ended && renderOver()}
         {this.state.gameState.in_progress && <h2>GAME IN PROGRESS!!!!</h2>}
         {this.shouldShowThumbZone() && renderThumbZone()}
+        {this.state.gameState.is_ended && renderNewGameForm()}
       </div>
     )
   }

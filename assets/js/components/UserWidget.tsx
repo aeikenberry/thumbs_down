@@ -13,7 +13,9 @@ export default class UserWidget extends React.Component<UsersState, {}> {
   }
 
   public render(): JSX.Element {
-    const users = this.props.users.sort().map((u) =>
+    const connectedUserNames = this.props.users.map((u) => u.name)
+
+    const connectedUsers = this.props.users.sort().map((u) =>
       <UserRow
         name={u.name}
         hasThumbsDown={u.hasThumbsDown}
@@ -22,10 +24,28 @@ export default class UserWidget extends React.Component<UsersState, {}> {
         winner={this.props.winner}
       ></UserRow>
     )
+
+    const notConnectedGameUsers = this.props.inGameUsers ? this.props.inGameUsers.filter(
+      (name) => connectedUserNames.indexOf(name) < 0)
+      .map((username) =>
+      <UserRow
+        name={username}
+        hasThumbsDown={null}
+        key={username}
+        inGame={true}
+        winner={this.props.winner}
+      ></UserRow>
+      ) : null
+
     return (
       <div className="user-widget">
         <h4>Users</h4>
-        <ul>{users}</ul>
+        <span>Connected</span>
+          <ul>{connectedUsers}</ul>
+        {notConnectedGameUsers && <div>
+          <span>Participants</span>
+          <ul>{notConnectedGameUsers}</ul>
+        </div>}
       </div>
     )
   }

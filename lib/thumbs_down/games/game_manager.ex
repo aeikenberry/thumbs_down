@@ -63,10 +63,25 @@ defmodule ThumbsDown.GameManager do
 
   def end_game(id) do
     GameState.end_game(id)
-    # game = Games.get_game(id)
-    # TODO: Update game in database
-    # Probably not even load game if it's already over.
     # Show link to start a new game
+  end
+
+  def update_state_from_db(id) do
+    game = Games.get_game!(id)
+    if game.winner do
+      GameState.set(id, game)
+    end
+  end
+
+  def update_db(id) do
+    game_state = get(id)
+    game = Games.get_game!(id)
+    Games.update_game(game, %{
+      winner: game_state.winner,
+      start_time: game_state.start_time,
+      end_time: game_state.end_time,
+      users: game_state.users
+    })
   end
 
   def set_winner(id, username) do
@@ -103,7 +118,9 @@ defmodule ThumbsDown.GameManager do
     # Someone is out!
     if should_game_end?(user_state, game.users) do
       end_game(game.id)
-      set_winner(game.id, find_winner(game, user_state, username))
+      winner = find_winner(game, user_state, username)
+      set_winner(game.id, winner)
+      update_db(game.id)
     end
   end
 

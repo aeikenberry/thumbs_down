@@ -9,6 +9,7 @@ import * as ReactDOM from 'react-dom'
 //
 import 'phoenix_html'
 import ThumbsDown from './components/ThumbsDown'
+import NewGameForm from './components/NewGameForm'
 
 declare global {
   interface Window { app: any }
@@ -18,10 +19,17 @@ declare global {
 // configuration and injects the app into a DOM element.
 
 window.app = {
-  startThumbsDown: (roomId, username) => {
+  startThumbsDown: (roomId, username, token) => {
     ReactDOM.render(
-      <ThumbsDown roomId={roomId} username={username} />,
+      <ThumbsDown roomId={roomId} username={username} csrf_token={token} />,
       document.getElementById('game-app')
+    )
+  },
+
+  showNewGameForm: (token, elId) => {
+    ReactDOM.render(
+      <NewGameForm csrf_token={token} />,
+      document.getElementById(elId)
     )
   }
 }

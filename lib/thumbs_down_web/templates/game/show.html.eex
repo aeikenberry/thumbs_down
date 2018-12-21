@@ -17,6 +17,6 @@
   }
 
   function startGame(name) {
-    window.app.startThumbsDown('<%= @game.id %>', name);
+    window.app.startThumbsDown('<%= @game.id %>', name, <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>);
   }
 </script>
