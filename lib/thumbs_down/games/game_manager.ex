@@ -76,12 +76,14 @@ defmodule ThumbsDown.GameManager do
   def update_db(id) do
     game_state = get(id)
     game = Games.get_game!(id)
+    duration = DateTime.diff(game_state.end_time, game_state.start_time)
+    GameState.set_duration(id, duration)
     Games.update_game(game, %{
       winner: game_state.winner,
       start_time: game_state.start_time,
       end_time: game_state.end_time,
       users: game_state.users,
-      duration: DateTime.diff(game_state.end_time, game_state.start_time)
+      duration: duration
     })
   end
 
