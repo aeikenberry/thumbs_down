@@ -41,7 +41,7 @@ const initialState = {
 }
 
 export default class ThumbsDown extends React.Component<GameProps, GameState> {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this.state = initialState
     this.setup()
@@ -96,12 +96,12 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     this.state.channel.on('game_update', this.handleGameUpdate.bind(this))
   }
 
-  private handleGameUpdate(e) {
+  private handleGameUpdate(e: any) {
     this.setState({ gameState: e })
   }
 
   private handleEnter() {
-    console.log('Joined Successfully')
+    // console.log('Joined Successfully')
   }
 
   private handleError(e: any) {

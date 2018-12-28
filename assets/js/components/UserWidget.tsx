@@ -8,7 +8,7 @@ interface UsersState {
 }
 
 export default class UserWidget extends React.Component<UsersState, {}> {
-  constructor(props) {
+  constructor(props: any) {
     super(props)
   }
 
