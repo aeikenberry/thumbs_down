@@ -57,8 +57,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :thumbs_down, ThumbsDown.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "thumbs_down_dev",
+  username: "thumbsdown",
+  password: "thumbs",
+  database: "thumbdsdown",
   hostname: "localhost",
   pool_size: 10
