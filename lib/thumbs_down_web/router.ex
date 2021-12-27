@@ -22,7 +22,8 @@ defmodule ThumbsDownWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ThumbsDownWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ThumbsDownWeb do
+    pipe_through :api
+    resources "/games", GameAPIController
+  end
 end
