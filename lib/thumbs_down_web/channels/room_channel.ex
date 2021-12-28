@@ -56,4 +56,9 @@ defmodule ThumbsDownWeb.RoomChannel do
 
     {:reply, :ok, socket}
   end
+
+  def handle_in("new_game", attrs, socket) do
+    broadcast(socket, "new_game_redirect", %{url: "/games/#{attrs["game_id"]}"})
+    {:reply, :ok, socket}
+  end
 end

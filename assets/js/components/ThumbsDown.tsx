@@ -57,7 +57,9 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
       <ThumbZone changeCallback={this.thumbCallback.bind(this)}></ThumbZone>
 
     const renderNewGameForm = () =>
-      <NewGameForm csrf_token={this.props.csrf_token}></NewGameForm>
+      <NewGameForm
+      csrf_token={this.props.csrf_token}
+      submitCallback={this.handleNewGameFormSubmit.bind(this)}></NewGameForm>
 
     return (
       <div>
@@ -94,10 +96,29 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     this.state.channel.on('presence_state', this.handlePresenseState.bind(this))
     this.state.channel.on('presence_diff', this.handlePresenseChange.bind(this))
     this.state.channel.on('game_update', this.handleGameUpdate.bind(this))
+    this.state.channel.on('new_game_redirect', this.handleGameRedirect.bind(this))
   }
 
   private handleGameUpdate(e: any) {
     this.setState({ gameState: e })
+  }
+
+  private handleGameRedirect(e: any) {
+    window.location = e.url
+  }
+
+  private handleNewGameFormSubmit(e: any) {
+    // Create a game with the api, get the ID
+    // Tell the channel so we can get redirected there.
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+  };
+  fetch('/api/games', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        this.state.channel.push('new_game', { game_id: data.id })
+      });
   }
 
   private handleEnter() {
