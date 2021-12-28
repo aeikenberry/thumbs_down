@@ -14,7 +14,6 @@
   <tbody>
 <%= for game <- @games do %>
     <tr>
-      <td><%= game.room_id %></td>
       <td><%= game.start_time %></td>
       <td><%= game.end_time %></td>
       <td><%= game.duration %></td>

@@ -19,6 +19,7 @@ defmodule ThumbsDownWeb.RoomChannel do
 
     GameManager.ensure_state(socket.assigns.game_id)
     GameManager.update_state_from_db(socket.assigns.game_id)
+    GameManager.handle_player_join(socket.assigns.game_id, socket.assigns.name)
     game = GameManager.get(socket.assigns.game_id)
     broadcast(socket, "game_update", game)
 

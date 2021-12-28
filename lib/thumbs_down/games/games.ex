@@ -30,6 +30,14 @@ defmodule ThumbsDown.Games do
     Repo.all(query)
   end
 
+  def open_games do
+    query = from g in Game,
+      where: is_nil(g.start_time) and fragment("array_length(?, 1)", g.users) > 0,
+      order_by: [desc: g.id],
+      limit: 10
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single game.
 

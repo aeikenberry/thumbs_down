@@ -9,6 +9,17 @@
       <div id="new-game-form"></div>
     </div>
   </div>
+  <%= if (length @open_games) > 0 do %>
+    <h5>Open Games</h5>
+    <div class="col-12">
+    <ul>
+    <%= for game <- @open_games do %>
+      <li>
+        <a href="<%= @base_url %>/games/<%= game.id %>">Join Game</a>
+      </li>
+    <% end %>
+    </div>
+  <%= end %>
 
   <h5>Leader Board</h5>
   <table class="table">

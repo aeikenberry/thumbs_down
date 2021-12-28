@@ -97,6 +97,17 @@ defmodule ThumbsDown.GameManager do
   end
 
   ## Handlers
+  def handle_player_join(id, username) do
+    game = Games.get_game!(id)
+    unless game.start_time do
+      unless game.users == nil do
+        Games.update_game(game, %{users: Enum.uniq([username | game.users])})
+      else
+        Games.update_game(game, %{users: [username]})
+      end
+    end
+  end
+
   def handle_change(id, user_state, %{thumb_down: true} = change) do
     game_current = get(id)
 
@@ -146,5 +157,12 @@ defmodule ThumbsDown.GameManager do
   def handle_leave(id, user_leaving, user_state) do
     game = get(id)
     handle_thumb_up(game, user_state, user_leaving)
+    unless game.start_time do
+      Logger.info("LEAVE")
+      Logger.info(user_state)
+      g = Games.get_game!(id)
+
+      Logger.info(Games.update_game(g, %{users: Map.keys(user_state)}))
+    end
   end
 end

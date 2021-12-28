@@ -17,7 +17,7 @@ defmodule ThumbsDownWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/games", GameController
+    resources "/games", GameController, only: [:new, :show, :create]
     resources "/users", UserController
   end
 
