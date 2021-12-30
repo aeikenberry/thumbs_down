@@ -28,7 +28,7 @@ window.app = {
 
   showNewGameForm: (token, elId) => {
     ReactDOM.render(
-      <NewGameForm csrf_token={token} />,
+      <NewGameForm csrf_token={token} submitCallback={null} />,
       document.getElementById(elId)
     )
   },

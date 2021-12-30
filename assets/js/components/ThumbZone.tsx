@@ -20,6 +20,7 @@ export default class ThumbZone extends React.Component<Props, ThumbState> {
 
   public componentDidMount() {
     this.node.current.ontouchstart = this.handleDown.bind(this)
+    window.addEventListener("blur", this.handleUp.bind(this))
   }
 
   public render(): JSX.Element {
