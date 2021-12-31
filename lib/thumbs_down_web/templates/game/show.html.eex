@@ -3,7 +3,7 @@
   <button class="btn btn-sm btn-secondary" onClick="copyURL()" id="copy">copy</button>
 </div>
 
-<form onSubmit="return captureNameForm()" id="name-form">
+<form onSubmit="return captureNameForm()" id="name-form" class="hidden">
   <p>🙍 Name</p>
   <input id="name" type="text">
   <input type="submit" value="start"></input>
@@ -34,14 +34,14 @@
   setTimeout(function() {
     let cookie = window.app.getCookie(usernameCookie)
     if (!cookie) {
-      //$('.hidden').show();
+      $('.hidden').show();
     } else {
       startGame(cookie);
       document.getElementById('name-form').remove();
     }
-  }, 20)
+  }, 10)
 
   function startGame(name) {
-    window.app.startThumbsDown('<%= @game.id %>', name, <%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>);
+    window.app.startThumbsDown('<%= @game.id %>', name, <%= raw Jason.encode!(Plug.CSRFProtection.get_csrf_token()) %>);
   }
 </script>

@@ -48,6 +48,6 @@
 
 <script>
 setTimeout(function() {
-  window.app.showNewGameForm(<%= raw Poison.encode!(Plug.CSRFProtection.get_csrf_token()) %>, 'new-game-form');
+  window.app.showNewGameForm(<%= raw Jason.encode!(Plug.CSRFProtection.get_csrf_token()) %>, 'new-game-form');
 }, 500);
 </script>

@@ -129,11 +129,6 @@ defmodule ThumbsDown.GameState do
 
     {:noreply, updated_state}
   end
-
-
-  @doc """
-  Gracefully end this process
-  """
   def handle_info(:end_process, state) do
     Logger.info("Process terminating... game ID: #{state.game_id}")
     {:stop, :normal, state}

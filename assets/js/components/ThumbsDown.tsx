@@ -11,7 +11,8 @@ interface GameState {
   users: UserState[]
   socket: Socket
   channel?: Channel
-  gameState: any
+  gameState: any,
+  loaded: boolean
 }
 
 interface GameProps {
@@ -37,7 +38,8 @@ const initialState = {
   socket: new Socket('/socket', {}),
   users: [],
   rawUsers: {},
-  gameState: {}
+  gameState: {},
+  loaded: false
 }
 
 export default class ThumbsDown extends React.Component<GameProps, GameState> {
@@ -61,18 +63,22 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
       csrf_token={this.props.csrf_token}
       submitCallback={this.handleNewGameFormSubmit.bind(this)}></NewGameForm>
 
+    const renderUserWidget = () =>
+      <UserWidget users={this.state.users}  inGameUsers={this.state.gameState.users} winner={this.state.gameState.winner}></UserWidget>
+
     return (
       <div>
-        <UserWidget users={this.state.users}  inGameUsers={this.state.gameState.users} winner={this.state.gameState.winner}></UserWidget>
-        {this.state.gameState.is_ended && renderOver()}
-        {this.state.gameState.in_progress && <h5>🎮 In progress 🎮</h5>}
-        {this.shouldShowThumbZone() && renderThumbZone()}
-        {this.state.gameState.is_ended && renderNewGameForm()}
+        {this.state.loaded && renderUserWidget()}
+        {this.state.loaded && this.state.gameState.is_ended && renderOver()}
+        {this.state.loaded && this.state.gameState.in_progress && <h5>🎮 In progress 🎮</h5>}
+        {this.state.loaded && this.shouldShowThumbZone() && renderThumbZone()}
+        {this.state.loaded && this.state.gameState.is_ended && renderNewGameForm()}
       </div>
     )
   }
 
   private shouldShowThumbZone(): boolean {
+    if (!this.state.loaded) return false
     if (this.state.gameState.is_ended) return false
     if (this.state.gameState.in_progress) {
       return this.state.gameState.users.indexOf(this.props.username) > -1
@@ -85,6 +91,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     this.state.socket.connect()
     this.state = {
       ...this.state,
+      loaded: false,
       channel: this.state.socket.channel(
         `room:${this.props.roomId}`,
         { name: this.props.username }
@@ -100,7 +107,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   }
 
   private handleGameUpdate(e: any) {
-    this.setState({ gameState: e })
+    this.setState({ gameState: e, loaded: true })
   }
 
   private handleGameRedirect(e: any) {
@@ -113,12 +120,12 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
-  };
-  fetch('/api/games', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        this.state.channel.push('new_game', { game_id: data.id })
-      });
+    };
+    fetch('/api/games', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          this.state.channel.push('new_game', { game_id: data.id })
+        });
   }
 
   private handleEnter() {
@@ -132,7 +139,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
   private handlePresenseState(e: UserMap) {
     this.setState({
       rawUsers: e,
-      users: this.transformRawUsers(e),
+      users: this.transformRawUsers(e)
      })
   }
 
@@ -143,7 +150,7 @@ export default class ThumbsDown extends React.Component<GameProps, GameState> {
     }
     this.setState({
       rawUsers,
-      users: this.transformRawUsers(rawUsers),
+      users: this.transformRawUsers(rawUsers)
     })
   }
 
